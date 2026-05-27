@@ -3,7 +3,6 @@ import Express from "express";
 const app = Express()
 
 const port = 3000
-app.use(Express.json())
 const User = [
     {
         id: 1,
