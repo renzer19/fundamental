@@ -1,4 +1,4 @@
-import Express from "express";
+import Express, { Request, Response } from "express";
 
 const app = Express()
 
@@ -43,6 +43,12 @@ app.get("/users",(req,res) => {
 
 app.post('/users', (req, res)  => {
     const { name, email } = req.body
+    if(!name) {
+        return res.status(400).json({
+            success : false,
+            message : "kolom nama wajib di isi"
+        })
+    }
     const newUser: any = {
         id: User.length + 1,
         name,
@@ -55,7 +61,7 @@ app.post('/users', (req, res)  => {
     })
 })
 app.get('/users/:id', (req, res)  => {
-    const id = Number(req.params.id)
+    const id = req.params.id
     const user = User.find(i => i.id === id)
     res.json({
         success : true,
@@ -63,7 +69,7 @@ app.get('/users/:id', (req, res)  => {
     })
 })
 app.patch('/users/:id', (req, res)  => {
-    const id = Number(req.params.id)
+    const id = req.params.id
     const index = User.findIndex(i => i.id === id)
 
     const data:any[] = User[index] = {
